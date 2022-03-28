@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="is.tiro.heyra">
+
+  <!-- <uses-sdk -->
+  <!--     android:minSdkVersion="${minSdkVersion}" -->
+  <!--     android:targetSdkVersion="${targetSdkVersion}" -->
+  <!--     android:compileSdkVersion="${compileSdkVersion}" /> -->
+  
+  <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+  <uses-permission android:name="android.permission.INTERNET"/>
+
+  <queries>
+    <intent>
+      <action android:name="android.speech.RecognitionService"/>
+    </intent>
+  </queries>
+
+  <application
+      android:allowBackup="false"
+      android:icon="@mipmap/ic_launcher"
+      android:label="@string/app_name"
+      android:roundIcon="@mipmap/ic_launcher_round"
+      android:supportsRtl="true"
+      android:theme="@style/Theme.Heyra">
+
+    <activity android:name=".RecognitionActivity"
+        android:exported="true"
+        android:documentLaunchMode="intoExisting"
+        android:excludeFromRecents="true"
+        android:theme="@style/Theme.Heyra.Modal"
+        android:label="@string/recognize_web_search_name">
+      <intent-filter>
+        <action android:name="android.speech.action.RECOGNIZE_SPEECH" />
+        <category android:name="android.intent.category.DEFAULT" />
+      </intent-filter>
+      <intent-filter>
+        <action android:name="android.speech.action.WEB_SEARCH" />
+        <category android:name="android.intent.category.DEFAULT" />
+      </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+
+    <activity
+        android:name=".PreferencesActivity"
+        android:label="@string/settings_name"
+        android:exported="true"
+        android:documentLaunchMode="intoExisting">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+
+    <service
+        android:name=".RecognitionService"
+        android:description="@string/recognition_service_description"
+        android:exported="true"
+        android:foregroundServiceType="microphone"
+        android:label="@string/recognition_service_label"
+        android:permission="android.permission.RECORD_AUDIO"
+        android:process=":recognition_service">
+      <intent-filter>
+        <action android:name="android.speech.RecognitionService" />
+        <category android:name="android.intent.category.DEFAULT" />
+      </intent-filter>
+
+      <meta-data
+          android:name="android.speech"
+          android:resource="@xml/recognition_service" />
+    </service>
+
+    <!-- This service has yet to be implemented
+    <service
+        android:name=".InputMethodService"
+        android:label="@string/speech_input_method_label"
+        android:permission="android.permission.BIND_INPUT_METHOD"
+        android:exported="true">
+      <intent-filter>
+        <action android:name="android.view.InputMethod" />
+      </intent-filter>
+      <meta-data
+          android:name="android.view.im"
+          android:resource="@xml/input_method" />
+    </service>
+     -->
+
+    <receiver
+        android:name=".GetLanguageDetailsReceiver"
+        android:exported="true">
+      <intent-filter>
+        <action android:name="android.speech.action.GET_LANGUAGE_DETAILS" />
+      </intent-filter>
+    </receiver>
+  </application>
+</manifest>

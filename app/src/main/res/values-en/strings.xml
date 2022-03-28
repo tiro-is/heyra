@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="recognition_service_label">Heyra Speech Recognition</string>
+    <string name="recognition_service_description">Heyra is a speech recognition service for the Android OS powered by Tiro</string>
+    <string name="button_start_listening">Listen</string>
+    <string name="speech_input_method_label">Heyra voice typing</string>
+    <string name="server_address">Speech recognition server address</string>
+    <string name="server_address_summary">Address of speech recognition server to use that implements the tiro.speech.v1alpha.Speech gRPC API</string>
+    <string name="pref_server_address_not_valid">This URL does not have the correct format</string>
+    <string name="prompt_speak">Speak…</string>
+    <string name="recognize_web_search_name">Heyra Web Search</string>
+    <string name="settings_name">Heyra Settings</string>
+    <string name="error_speech_timeout">Didn\'t catch that… Try again!</string>
+    <string name="error_speech_unknown">Ugh… Encoutered an unknown error! Try again.</string>
+    <string name="pref_reset_title">Reset</string>
+    <string name="pref_reset_summary">Reset all settings to default values</string>
+    <string name="error_insufficient_permission_title">Insufficient permissions</string>
+    <string name="error_insufficient_permission_message">Heyra requires permissions to record audio.</string>
+</resources>

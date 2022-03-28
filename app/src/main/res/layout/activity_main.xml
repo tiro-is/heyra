@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".RecognitionActivity"
+    android:id="@+id/main_layout"
+    android:layout_width="350dp"
+    android:layout_height="250dp"
+    android:padding="25dp"
+    android:background="@color/design_default_color_background"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:theme="@style/Theme.Heyra.Modal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5" />
+
+        <ImageButton
+            android:id="@+id/button_start_listening"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/button_start_listening"
+            android:gravity="center"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_microphone" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_recognition_results"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:gravity="center_horizontal"
+        android:textColor="@color/black"
+        android:text=""
+        android:textAlignment="center" />
+
+</LinearLayout>

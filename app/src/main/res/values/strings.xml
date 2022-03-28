@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name" translatable="false">Heyra</string>
+    <string name="recognition_service_label">Heyra talgreining</string>
+    <string name="recognition_service_description">Heyra er talgreiningarvél fyrir Android stýrikerfi sem knúin er af Tiro</string>
+    <string name="button_start_listening">Hlusta</string>
+    <string name="speech_input_method_label">Heyra raddinnsláttur</string>
+    <string name="server_address">Netslóð talgreiningarþjóns</string>
+    <string name="server_address_summary">Netslóð talgreiningarþjóns sem styður tiro.speech.v1alpha.Speech forritunarskilin.</string>
+    <string name="pref_server_address_not_valid">Þessi netslóð er ekki á réttu sniði!</string>
+    <string name="pref_reset_title">Endurstilla</string>
+    <string name="pref_reset_summary">Upphafstilla öll stillingaratriði</string>
+    <string name="prompt_speak">Talaðu…</string>
+    <string name="recognize_web_search_name">Heyra vefleit</string>
+    <string name="settings_name">Heyra stillingar</string>
+    <string name="error_speech_timeout">Náði þessu ekki alveg… Reyndu aftur!</string>
+    <string name="error_speech_unknown">Arg… Upp kom óþekkt villa! Prófaðu aftur.</string>
+    <string name="error_insufficient_permission_title">Ekki næg réttindi!</string>
+    <string name="error_insufficient_permission_message">Heyra vantar réttindi til að taka upp hljóð.</string>
+</resources>
