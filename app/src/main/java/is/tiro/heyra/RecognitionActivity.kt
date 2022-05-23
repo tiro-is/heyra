@@ -44,13 +44,17 @@ class RecognitionActivity : AppCompatActivity(), RecognitionListener {
     }
 
     private var recognizer: SpeechRecognizer? = null
-    private var listening = false
     private lateinit var listenBtn: View
+    private var listening: Boolean
+        get() = listenBtn.isActivated
+        set(value) {
+            listenBtn.isActivated = value
+        }
     private lateinit var resultsTextView: TextView
-
 
     override fun onReadyForSpeech(params: Bundle) {
         Log.d(_tag, "ready for speech")
+        listening = true
     }
 
     override fun onBeginningOfSpeech() {
@@ -74,6 +78,7 @@ class RecognitionActivity : AppCompatActivity(), RecognitionListener {
         finishListening()
         resultsTextView.text = when (error) {
             SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> getString(R.string.error_speech_timeout)
+            SpeechRecognizer.ERROR_NO_MATCH -> getString(R.string.error_speech_no_match)
             else -> getString(R.string.error_speech_unknown)
         }
     }
@@ -90,7 +95,7 @@ class RecognitionActivity : AppCompatActivity(), RecognitionListener {
             Log.d(_tag, "recognize speech intent: $intent")
             val retIntent = Intent().apply {
                 putStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS, resultsArray)
-                putExtra(RecognizerIntent.EXTRA_CONFIDENCE_SCORES, arrayListOf(Collections.nCopies(resultsArray.size, 1f)))
+                putExtra(RecognizerIntent.EXTRA_CONFIDENCE_SCORES, arrayListOf(Collections.nCopies(resultsArray.size, -1f)))
                 putExtra(SearchManager.QUERY, topResult)
 
             }
@@ -164,22 +169,21 @@ class RecognitionActivity : AppCompatActivity(), RecognitionListener {
         recognizer?.let {
             it.setRecognitionListener(this)
             it.startListening(
-                Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-                    .putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
-                    .putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to me!")
+                Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                    putExtras(intent.extras ?: Bundle())
+                    putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
+                }
             )
-
-            listenBtn.isActivated = true
-            listening = true
         }
+        resultsTextView.text = intent.getStringExtra(RecognizerIntent.EXTRA_PROMPT) ?: ""
     }
 
     private fun stopListening() {
         recognizer?.stopListening()
+        listening = false
     }
 
     private fun finishListening() {
-        listenBtn.isActivated = false
         listening = false
     }
 

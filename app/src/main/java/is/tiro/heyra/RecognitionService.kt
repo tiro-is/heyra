@@ -29,6 +29,7 @@ class RecognitionService : android.speech.RecognitionService() {
     private var listener: Callback? = null
     private var finalResultsReceived = false
     private var ready = false
+    private var cancelled = false
     private lateinit var channel: ManagedChannel
     private lateinit var stub: SpeechGrpcKt.SpeechCoroutineStub
     private lateinit var onSharedPreferenceChangeListener: SharedPreferences.OnSharedPreferenceChangeListener
@@ -73,6 +74,7 @@ class RecognitionService : android.speech.RecognitionService() {
     override fun onStartListening(intent: Intent, recognitionListener: Callback) {
         Log.d(_tag, "Started listening")
         finalResultsReceived = false
+        cancelled = false
 
         when (PermissionChecker.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)) {
             PERMISSION_GRANTED -> {
@@ -84,27 +86,28 @@ class RecognitionService : android.speech.RecognitionService() {
                     )
                     .build()
 
-                listener = recognitionListener.apply {
-                    readyForSpeech(Bundle())
-                    ready = true
-                    // TODO(rkjaran): actually detect this...
-                    beginningOfSpeech()
-                }
+                listener = recognitionListener
 
                 val shouldReturnPartialResults = intent.getBooleanExtra(
                     RecognizerIntent.EXTRA_PARTIAL_RESULTS,
                     false
                 )
+                val maxAlternatives = intent.getIntExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5)
                 CoroutineScope(Dispatchers.IO).launch {
-                    stub.streamingRecognize(generateRequests()).collect { response ->
+                    stub.streamingRecognize(generateRequests(maxAlternatives)).collect { response ->
                         Log.d(_tag, "Got response: $response")
                         response.run {
                             if (speechEventType == StreamingRecognizeResponse.SpeechEventType.END_OF_SINGLE_UTTERANCE && !finalResultsReceived) {
                                 recognitionListener.endOfSpeech()
                                 ready = false
-                                if (!finalResultsReceived) {
-                                    Log.d(_tag, "No speech, timeout.")
-                                    recognitionListener.error(SpeechRecognizer.ERROR_SPEECH_TIMEOUT)
+                                when {
+                                    cancelled -> {
+                                        recognitionListener.error(SpeechRecognizer.ERROR_NO_MATCH)
+                                    }
+                                    else -> {
+                                        Log.d(_tag, "No speech, timeout.")
+                                        recognitionListener.error(SpeechRecognizer.ERROR_SPEECH_TIMEOUT)
+                                    }
                                 }
                             }
 
@@ -130,6 +133,10 @@ class RecognitionService : android.speech.RecognitionService() {
                             }
                         }
                     }
+                    if (ready) {
+                        recognitionListener.endOfSpeech()
+                        recognitionListener.error(SpeechRecognizer.ERROR_NO_MATCH)
+                    }
                 }
             }
             else -> {
@@ -147,20 +154,23 @@ class RecognitionService : android.speech.RecognitionService() {
 
     override fun onStopListening(listener: Callback) {
         Log.d(_tag, "Stopping listening")
+        cancelled = true
         stopListening()
     }
 
     private fun stopListening() {
         recorder?.run {
-            stop()
-            release()
+            if (state != AudioRecord.STATE_UNINITIALIZED) {
+                stop()
+                release()
+            }
         }
     }
 
     private fun generateRequests(
         maxAlternatives: Int = 1,
         interimResults: Boolean = true,
-        enableAutomaticPunctuation: Boolean = true
+        enableAutomaticPunctuation: Boolean = true,
     ): Flow<StreamingRecognizeRequest> = flow {
         recorder?.let { recorder ->
             recorder.startRecording()
@@ -184,6 +194,13 @@ class RecognitionService : android.speech.RecognitionService() {
             )
             Log.d(_tag, "Emitted config request")
 
+            listener?.run {
+                readyForSpeech(Bundle())
+                ready = true
+                // TODO(rkjaran): actually detect this...
+                beginningOfSpeech()
+            }
+
             val content = ByteArray(
                 2 * AudioRecord.getMinBufferSize(
                     recorder.sampleRate, recorder.channelConfiguration, recorder.audioFormat
@@ -204,3 +221,4 @@ class RecognitionService : android.speech.RecognitionService() {
         }
     }
 }
+
