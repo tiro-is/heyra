@@ -1,20 +1,50 @@
+import com.github.triplet.gradle.androidpublisher.ResolutionStrategy
+
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.protobuf' version '0.8.18'
+    id 'org.jmailen.kotlinter'
+    id 'com.github.triplet.play' version '3.7.0'
+    id 'com.gladed.androidgitversion' version '0.4.14'
 }
 
 android {
     compileSdk 31
 
+    signingConfigs {
+        file('keystore.properties').with { propsFile ->
+            if (propsFile.canRead()) {
+                def props = new Properties()
+                props.load(new FileInputStream(propsFile))
+                config {
+                    keyAlias props['keyAlias']
+                    keyPassword props['keyPassword']
+                    storeFile file(props['storeFile'])
+                    storePassword props['storePassword']
+                }
+            } else {
+                print('not signing')
+            }
+        }
+    }
+
     defaultConfig {
         applicationId "is.tiro.heyra"
         minSdk 24
         targetSdk 31
-        versionCode 1
-        versionName "1.0-prealpha1"
+
+        versionCode androidGitVersion.code()
+        versionName androidGitVersion.name()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        file('keystore.properties').with { propsFile ->
+            if (propsFile.canRead()) {
+                signingConfig signingConfigs.config
+            }
+        }
+
     }
 
     buildTypes {
@@ -71,6 +101,11 @@ android {
             }
         }
     }
+}
+
+play {
+    defaultToAppBundles.set(true)
+    resolutionStrategy.set(ResolutionStrategy.AUTO)
 }
 
 dependencies {

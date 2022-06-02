@@ -27,7 +27,7 @@
 
     <activity android:name=".RecognitionActivity"
         android:exported="true"
-        android:documentLaunchMode="intoExisting"
+        android:launchMode="standard"
         android:excludeFromRecents="true"
         android:theme="@style/Theme.Heyra.Modal"
         android:label="@string/recognize_web_search_name">

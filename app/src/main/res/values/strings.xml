@@ -14,6 +14,7 @@
     <string name="settings_name">Heyra stillingar</string>
     <string name="error_speech_timeout">Náði þessu ekki alveg… Reyndu aftur!</string>
     <string name="error_speech_unknown">Arg… Upp kom óþekkt villa! Prófaðu aftur.</string>
+    <string name="error_speech_no_match">Heyrði ekki í þér!</string>
     <string name="error_insufficient_permission_title">Ekki næg réttindi!</string>
     <string name="error_insufficient_permission_message">Heyra vantar réttindi til að taka upp hljóð.</string>
 </resources>

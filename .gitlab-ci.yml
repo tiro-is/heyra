@@ -1,0 +1,39 @@
+image: registry.gitlab.com/tiro-is/heyra/android-ci@sha256:786ad41f1d8897676930b08fb275ac362d0d0f21c774c401ac1c896aad947bf9
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+  GRADLE_USER_HOME: ".gradle/_downloaded"
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+cache:
+  paths:
+    - .gradle/
+
+stages:
+  - checks
+  - build
+  - test
+  - deploy
+
+kotlin style linter:
+  stage: checks
+  script:
+    - ./gradlew lintKotlin
+
+build:
+  stage: build
+  script:
+    - ./gradlew assembleDebug
+  artifacts:
+    paths:
+    - app/build/outputs/
+
+publish to play store (alpha):
+  stage: deploy
+  only:
+    - master
+  before_script:
+    - echo "$ANDROID_KEYSTORE" | base64 -d > app/keystore.jks
+    - echo "$ANDROID_KEYSTORE_PROPERTIES" | base64 -d > app/keystore.properties
+  script:
+    - ./gradlew publishBundle
