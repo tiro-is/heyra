@@ -1,0 +1,1 @@
+Sjálfvirk hlustun, skárri meðhöndlun þegar notandi hættir sjálfur o.fl.
