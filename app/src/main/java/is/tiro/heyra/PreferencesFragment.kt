@@ -41,5 +41,4 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                 true
             }
     }
-
 }

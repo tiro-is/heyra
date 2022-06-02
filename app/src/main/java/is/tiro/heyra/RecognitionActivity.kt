@@ -39,7 +39,6 @@ class RecognitionActivity : AppCompatActivity(), RecognitionListener {
                     create()
                 }
                 .show()
-
         }
     }
 
@@ -97,7 +96,6 @@ class RecognitionActivity : AppCompatActivity(), RecognitionListener {
                 putStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS, resultsArray)
                 putExtra(RecognizerIntent.EXTRA_CONFIDENCE_SCORES, arrayListOf(Collections.nCopies(resultsArray.size, -1f)))
                 putExtra(SearchManager.QUERY, topResult)
-
             }
             setResult(Activity.RESULT_OK, retIntent)
             finish()

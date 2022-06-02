@@ -1,6 +1,5 @@
 package `is`.tiro.heyra
 
-import `is`.tiro.speech.v1alpha.*
 import android.Manifest
 import android.content.Intent
 import android.content.SharedPreferences
@@ -16,6 +15,11 @@ import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import androidx.preference.PreferenceManager
 import com.google.protobuf.ByteString
 import io.grpc.ManagedChannel
+import `is`.tiro.speech.v1alpha.RecognitionConfig
+import `is`.tiro.speech.v1alpha.SpeechGrpcKt
+import `is`.tiro.speech.v1alpha.StreamingRecognitionConfig
+import `is`.tiro.speech.v1alpha.StreamingRecognizeRequest
+import `is`.tiro.speech.v1alpha.StreamingRecognizeResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -117,9 +121,11 @@ class RecognitionService : android.speech.RecognitionService() {
                                 val resultBundle = Bundle().apply {
                                     putStringArrayList(
                                         SpeechRecognizer.RESULTS_RECOGNITION,
-                                        ArrayList(result.alternativesList.map { alt ->
-                                            alt.transcript
-                                        })
+                                        ArrayList(
+                                            result.alternativesList.map { alt ->
+                                                alt.transcript
+                                            }
+                                        )
                                     )
                                 }
                                 if (result.isFinal) {
@@ -180,7 +186,7 @@ class RecognitionService : android.speech.RecognitionService() {
                     .setStreamingConfig(
                         StreamingRecognitionConfig.newBuilder()
                             .setInterimResults(interimResults)
-                            .setSingleUtterance(true)  // TODO(rkjaran): Make configurable
+                            .setSingleUtterance(true) // TODO(rkjaran): Make configurable
                             .setConfig(
                                 RecognitionConfig.newBuilder()
                                     .setEncoding(RecognitionConfig.AudioEncoding.LINEAR16)
@@ -221,4 +227,3 @@ class RecognitionService : android.speech.RecognitionService() {
         }
     }
 }
-
