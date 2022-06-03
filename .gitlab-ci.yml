@@ -30,8 +30,9 @@ build:
 
 publish to play store (alpha):
   stage: deploy
-  only:
-    - master
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_TAG =~ /^[0-9]+\.[0-9]+(\.[0-9]+)?(-(prealpha|alpha|beta|dev)([0-9]+)?)?$/
   before_script:
     - echo "$ANDROID_KEYSTORE" | base64 -d > app/keystore.jks
     - echo "$ANDROID_KEYSTORE_PROPERTIES" | base64 -d > app/keystore.properties
