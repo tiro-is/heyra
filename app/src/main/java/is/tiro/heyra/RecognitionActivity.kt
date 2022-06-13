@@ -94,7 +94,7 @@ class RecognitionActivity : AppCompatActivity(), RecognitionListener {
             Log.d(_tag, "recognize speech intent: $intent")
             val retIntent = Intent().apply {
                 putStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS, resultsArray)
-                putExtra(RecognizerIntent.EXTRA_CONFIDENCE_SCORES, arrayListOf(Collections.nCopies(resultsArray.size, -1f)))
+                putExtra(RecognizerIntent.EXTRA_CONFIDENCE_SCORES, Collections.nCopies(resultsArray.size, -1f).toFloatArray())
                 putExtra(SearchManager.QUERY, topResult)
             }
             setResult(Activity.RESULT_OK, retIntent)
