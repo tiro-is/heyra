@@ -1,0 +1,1 @@
+Útfærsla á sýndarlyklaborði (virtual input method).
