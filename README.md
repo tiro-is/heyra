@@ -1,8 +1,9 @@
 # Heyra - Icelandic speech recognition for Android
 
-The Heyra project provides two loosely coupled components, an implementation of
-Android's speech recognition interface and an intent handler activity for speech
-recognition actions from other applications.
+The Heyra project provides three loosely coupled components, an implementation
+of Android's speech recognition interface, an intent handler activity for speech
+recognition actions from other applications and an input method service
+(i.e. virtual keyboard).
 
 Heyra provides an implementaion of
 [`android.speech.RecognitionService`](https://developer.android.com/reference/kotlin/android/speech/RecognitionService)

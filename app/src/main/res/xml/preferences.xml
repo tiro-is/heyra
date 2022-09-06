@@ -8,7 +8,17 @@
         app:defaultValue="grpcs://speech.tiro.is:443" />
 
     <Preference
+        app:key="permissions_status"
+        app:title="@string/pref_permissions_status_title"
+        app:summary="@string/pref_permissions_status_summary" />
+
+    <Preference
         app:key="reset"
         app:title="@string/pref_reset_title"
         app:summary="@string/pref_reset_summary" />
+
+    <Preference
+        app:key="about"
+        app:title="@string/pref_about_app_title"
+        app:summary="@string/pref_about_app_summary" />
 </PreferenceScreen>

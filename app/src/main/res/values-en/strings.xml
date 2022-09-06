@@ -17,4 +17,11 @@
     <string name="error_insufficient_permission_title">Insufficient permissions</string>
     <string name="error_insufficient_permission_message">Heyra requires permissions to record audio.</string>
     <string name="error_speech_no_match">Couldn\'t hear you!</string>
+    <string name="delete_word_button_description">Erase previous word</string>
+    <string name="pref_permissions_status_title">System permissions</string>
+    <string name="pref_permissions_status_summary">All system permissions granted.</string>
+    <string name="pref_insufficient_permissions_status_summary">Heyra needs additional system permissions. Click here to open system settings.</string>
+    <string name="pref_about_app_title">About Heyra</string>
+    <string name="pref_about_app_summary">Version info, privacy policy, third party licenses, …</string>
+    <string name="button_settings_description">Open application settings</string>
 </resources>
