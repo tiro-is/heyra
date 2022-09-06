@@ -101,6 +101,7 @@ android {
             }
         }
     }
+    namespace 'is.tiro.heyra'
 }
 
 play {
