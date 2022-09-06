@@ -17,4 +17,11 @@
     <string name="error_speech_no_match">Heyrði ekki í þér!</string>
     <string name="error_insufficient_permission_title">Ekki næg réttindi!</string>
     <string name="error_insufficient_permission_message">Heyra vantar réttindi til að taka upp hljóð.</string>
+    <string name="delete_word_button_description">Stroka út síðasta orð</string>
+    <string name="pref_permissions_status_title">Kerfisréttindi</string>
+    <string name="pref_permissions_status_summary">Öll nauðynleg kerfisréttindi virk.</string>
+    <string name="pref_insufficient_permissions_status_summary">Heyra vantar nauðsynleg kerfisréttindi. Smelltu hér til að fara opna kerfisstillingar.</string>
+    <string name="pref_about_app_title">Um Heyra</string>
+    <string name="pref_about_app_summary">Útgáfuupplýsingar, persónuvernd, hugbúnaðarleyfi þriðju aðila, …</string>
+    <string name="button_settings_description">Opna stillingar fyrir Heyra</string>
 </resources>

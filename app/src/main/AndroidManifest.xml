@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    package="is.tiro.heyra">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
   <!-- <uses-sdk -->
   <!--     android:minSdkVersion="${minSdkVersion}" -->
@@ -52,6 +51,7 @@
         android:documentLaunchMode="intoExisting">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.PREFERENCE" />
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
@@ -74,7 +74,6 @@
           android:resource="@xml/recognition_service" />
     </service>
 
-    <!-- This service has yet to be implemented
     <service
         android:name=".InputMethodService"
         android:label="@string/speech_input_method_label"
@@ -86,8 +85,8 @@
       <meta-data
           android:name="android.view.im"
           android:resource="@xml/input_method" />
+
     </service>
-     -->
 
     <receiver
         android:name=".GetLanguageDetailsReceiver"
