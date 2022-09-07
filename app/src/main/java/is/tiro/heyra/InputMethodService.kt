@@ -68,6 +68,25 @@ class InputMethodService :
         }
     }
 
+    private fun mapSpecialChars(hypothesis: String): String {
+        val specialChars = mapOf(
+            "spurningarmerki" to "?",
+            "punktur" to ".",
+            "komma" to ",",
+            "upphrópunarmerki" to "!",
+            "tvípunktur" to ":",
+            "semíkomma" to ";",
+            "ný lína" to "\n"
+        )
+
+        val hypLower = hypothesis.lowercase().trim()
+        return if (hypLower in specialChars.keys) {
+            specialChars[hypLower] as String
+        } else {
+            hypothesis
+        }
+    }
+
     private fun handleResults(results: Bundle, isFinal: Boolean = false) {
         Log.d(TAG, "results")
         val resultsArray = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
@@ -81,7 +100,7 @@ class InputMethodService :
                 else
                     " "
             }
-            currentHypothesis = padding + topResult
+            currentHypothesis = mapSpecialChars(padding + topResult)
             ic.setComposingText(currentHypothesis, 1)
             if (isFinal) {
                 ic.commitText(currentHypothesis, 1)
