@@ -67,33 +67,29 @@ class InputMethodService :
         }
     }
 
-    private fun handleResults(results: Bundle) {
+    private fun handleResults(results: Bundle, isFinal: Boolean = false) {
         Log.d(TAG, "results")
         val resultsArray = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
             ?: arrayListOf<String>()
         val topResult = if (resultsArray.size > 0) resultsArray[0] else ""
 
-        currentInputConnection.beginBatchEdit()
-        val padding =
-            currentInputConnection.getTextBeforeCursor(currentHypothesis.length + 1, 0).let {
-                if (it == null || it.length == currentHypothesis.length || it.substring(
-                        0,
-                        1
-                    ) == " "
-                ) {
+        currentInputConnection.also { ic ->
+            val padding = ic.getTextBeforeCursor(currentHypothesis.length + 1, 1).let {
+                if (it == null || it.length == currentHypothesis.length || it.startsWith(" "))
                     ""
-                } else {
+                else
                     " "
-                }
             }
-        currentInputConnection.deleteSurroundingText(currentHypothesis.length, 0)
-        currentHypothesis = padding + topResult
-        currentInputConnection.commitText(currentHypothesis, 1)
-        currentInputConnection.endBatchEdit()
+            currentHypothesis = padding + topResult
+            ic.setComposingText(currentHypothesis, 1)
+            if (isFinal) {
+                ic.commitText(currentHypothesis, 1)
+            }
+        }
     }
 
     override fun onResults(results: Bundle) {
-        handleResults(results)
+        handleResults(results, isFinal = true)
         finishListening()
     }
 
