@@ -24,4 +24,8 @@
     <string name="pref_about_app_title">Um Heyra</string>
     <string name="pref_about_app_summary">Útgáfuupplýsingar, persónuvernd, hugbúnaðarleyfi þriðju aðila, …</string>
     <string name="button_settings_description">Opna stillingar fyrir Heyra</string>
+    <string name="button_action_description">Framkvæma</string>
+    <string name="pref_input_method_status_title">Staða sýndarlyklaborðs</string>
+    <string name="pref_input_method_status_summary_active">Sýndarlyklaborð Heyra er virkt</string>
+    <string name="pref_input_method_status_summary_inactive">Sýndarlyklaborð Heyra er ekki virkt. Þú getur virkjað það í tungumála-/lyklaborðstillingum kerfisins</string>
 </resources>

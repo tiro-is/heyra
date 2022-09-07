@@ -2,10 +2,12 @@ package `is`.tiro.heyra
 
 import android.Manifest
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.view.inputmethod.InputMethodManager
 import androidx.core.content.PermissionChecker
 import androidx.core.content.edit
 import androidx.preference.EditTextPreference
@@ -18,6 +20,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
         const val KEY_SERVER_ADDRESS = "server_address"
         const val KEY_RESET = "reset"
         const val KEY_PERMISSIONS_STATUS = "permissions_status"
+        const val KEY_INPUT_METHOD_STATUS = "input_method_status"
     }
 
     private fun notify(messageId: Int) {
@@ -30,7 +33,14 @@ class PreferencesFragment : PreferenceFragmentCompat() {
         }?.show()
     }
 
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+    override fun onResume() {
+        super.onResume()
+        updateStatusSummaries()
+    }
+
+
+    private fun updateStatusSummaries() {
+        val statusKeys = arrayOf(KEY_INPUT_METHOD_STATUS, KEY_PERMISSIONS_STATUS)
         val hasPermissions = when (
             PermissionChecker.checkSelfPermission(
                 requireActivity().applicationContext,
@@ -40,7 +50,37 @@ class PreferencesFragment : PreferenceFragmentCompat() {
             PermissionChecker.PERMISSION_GRANTED -> true
             else -> false
         }
+        val inputMethodActive = requireActivity().applicationContext.let { ctx ->
+            val imm = requireActivity().applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.enabledInputMethodList.any { info ->
+                info.packageName == ctx.packageName
+            }
+        }
 
+        statusKeys.forEach { key ->
+            preferenceScreen.findPreference<Preference>(key)?.also { pref ->
+                when (key) {
+                    KEY_INPUT_METHOD_STATUS -> {
+                        pref.summary = if (inputMethodActive) {
+                            getString(R.string.pref_input_method_status_summary_active)
+                        } else {
+                            getString(R.string.pref_input_method_status_summary_inactive)
+                        }
+                    }
+                    KEY_PERMISSIONS_STATUS -> {
+                        pref.summary = if (hasPermissions) {
+                            getString(R.string.pref_permissions_status_summary)
+                        } else {
+                            getString(R.string.pref_insufficient_permissions_status_summary)
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
         preferenceScreen.findPreference<EditTextPreference>(KEY_SERVER_ADDRESS)?.onPreferenceChangeListener =
@@ -68,10 +108,16 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                 )
                 true
             }
-            it.summary = if (hasPermissions) {
-                getString(R.string.pref_permissions_status_summary)
-            } else {
-                getString(R.string.pref_insufficient_permissions_status_summary)
+        }
+
+        preferenceScreen.findPreference<Preference>(KEY_INPUT_METHOD_STATUS)?.let {
+            it.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                startActivity(
+                    Intent(
+                        Settings.ACTION_INPUT_METHOD_SETTINGS
+                    ).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                )
+                true
             }
         }
 
@@ -84,5 +130,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                 }
                 true
             }
+
+        updateStatusSummaries()
     }
 }

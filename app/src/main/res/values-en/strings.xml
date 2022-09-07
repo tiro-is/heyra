@@ -24,4 +24,8 @@
     <string name="pref_about_app_title">About Heyra</string>
     <string name="pref_about_app_summary">Version info, privacy policy, third party licenses, …</string>
     <string name="button_settings_description">Open application settings</string>
+    <string name="button_action_description">Perform action</string>
+    <string name="pref_input_method_status_title">Voice keyboard status</string>
+    <string name="pref_input_method_status_summary_active">The Heyra voice input method is active</string>
+    <string name="pref_input_method_status_summary_inactive">The Heyra voice input method is not active. You can activate it in the system language/input settings</string>
 </resources>

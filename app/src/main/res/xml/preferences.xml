@@ -13,6 +13,11 @@
         app:summary="@string/pref_permissions_status_summary" />
 
     <Preference
+        app:key="input_method_status"
+        app:title="@string/pref_input_method_status_title"
+        app:summary="@string/pref_input_method_status_summary_active" />
+
+    <Preference
         app:key="reset"
         app:title="@string/pref_reset_title"
         app:summary="@string/pref_reset_summary" />
