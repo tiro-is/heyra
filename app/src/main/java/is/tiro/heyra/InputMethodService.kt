@@ -211,7 +211,8 @@ class InputMethodService :
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
         Log.d(TAG, "onStartInputView")
         createSpeechRecognizer()
-        startListening()
+        if (!restarting)
+            startListening()
     }
 
     override fun onFinishInputView(finishingInput: Boolean) {
