@@ -220,5 +220,6 @@ class InputMethodService :
             stopListening()
         }
         finishListening()
+        switchToPreviousInputMethod()
     }
 }
