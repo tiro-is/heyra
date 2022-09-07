@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".InputMethodService"
     android:layout_width="350dp"
     android:layout_height="250dp"
-    android:padding="25dp"
-    android:background="@color/design_default_color_background"
     android:layout_gravity="center"
+    android:background="@color/design_default_color_background"
     android:orientation="vertical"
-    android:theme="@style/Theme.Heyra">
+    android:padding="25dp"
+    android:theme="@style/Theme.Heyra"
+    tools:context=".InputMethodService">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,16 +17,16 @@
 
         <ImageButton
             android:id="@+id/button_settings"
-            android:contentDescription="@string/button_settings_description"
-            android:layout_height="48dp"
             android:layout_width="48dp"
-            android:layout_weight="0.5"
+            android:layout_height="48dp"
             android:layout_gravity="center"
-            android:src="@drawable/ic_settings"
-            android:scaleType="fitCenter"
+            android:layout_weight="0.5"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:focusable="true" />
+            android:contentDescription="@string/button_settings_description"
+            android:focusable="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_settings" />
 
         <ImageButton
             android:id="@+id/button_start_listening"
@@ -35,25 +34,46 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
             android:contentDescription="@string/button_start_listening"
+            android:focusable="true"
             android:gravity="center"
             android:scaleType="fitCenter"
-            android:clickable="true"
-            android:focusable="true"
             android:src="@drawable/ic_microphone" />
 
-        <ImageButton
-            android:id="@+id/delete_word_button"
-            android:layout_height="48dp"
+        <LinearLayout
             android:layout_width="48dp"
-            android:layout_gravity="center"
+            android:layout_height="150dp"
             android:layout_weight="0.5"
-            android:clickable="true"
-            android:contentDescription="@string/delete_word_button_description"
-            android:focusable="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_backspace"
-            android:background="?android:attr/selectableItemBackgroundBorderless" />
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/delete_word_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_weight="0.5"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:contentDescription="@string/delete_word_button_description"
+                android:focusable="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_backspace" />
+
+            <ImageButton
+                android:id="@+id/button_action"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_weight="0.5"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:contentDescription="@string/button_action_description"
+                android:focusable="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_enter" />
+
+        </LinearLayout>
     </LinearLayout>
 
     <TextView
@@ -62,8 +82,8 @@
         android:layout_height="50dp"
         android:ems="10"
         android:gravity="center_horizontal"
-        android:textColor="@color/black"
         android:text=""
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textColor="@color/black" />
 
 </LinearLayout>

@@ -38,7 +38,6 @@ class PreferencesFragment : PreferenceFragmentCompat() {
         updateStatusSummaries()
     }
 
-
     private fun updateStatusSummaries() {
         val statusKeys = arrayOf(KEY_INPUT_METHOD_STATUS, KEY_PERMISSIONS_STATUS)
         val hasPermissions = when (
@@ -73,7 +72,6 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                         } else {
                             getString(R.string.pref_insufficient_permissions_status_summary)
                         }
-
                     }
                 }
             }

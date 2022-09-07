@@ -33,6 +33,7 @@ class InputMethodService :
     private lateinit var resultsTextView: TextView
     private lateinit var deleteWordBtn: ImageButton
     private lateinit var settingsBtn: ImageButton
+    private lateinit var actionBtn: ImageButton
     private var currentHypothesis = ""
 
     override fun onReadyForSpeech(params: Bundle) {
@@ -187,6 +188,20 @@ class InputMethodService :
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     }
                 )
+            }
+
+            actionBtn = findViewById<ImageButton>(R.id.button_action)
+            actionBtn.setOnClickListener {
+                val imeActionId = currentInputEditorInfo.let { info ->
+                    if ((info.imeOptions and EditorInfo.IME_FLAG_NO_ENTER_ACTION) != 0)
+                        EditorInfo.IME_ACTION_NONE
+                    else
+                        info.imeOptions and EditorInfo.IME_MASK_ACTION
+                }
+                if (imeActionId != EditorInfo.IME_ACTION_NONE)
+                    currentInputConnection.performEditorAction(imeActionId)
+                else
+                    currentInputConnection.commitText("\n", 1)
             }
 
             resultsTextView = findViewById<TextView>(R.id.text_recognition_results)
