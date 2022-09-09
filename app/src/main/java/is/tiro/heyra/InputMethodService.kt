@@ -33,6 +33,7 @@ class InputMethodService :
     private lateinit var resultsTextView: TextView
     private lateinit var deleteWordBtn: ImageButton
     private lateinit var settingsBtn: ImageButton
+    private lateinit var actionBtn: ImageButton
     private var currentHypothesis = ""
 
     override fun onReadyForSpeech(params: Bundle) {
@@ -67,33 +68,48 @@ class InputMethodService :
         }
     }
 
-    private fun handleResults(results: Bundle) {
+    private fun mapSpecialChars(hypothesis: String): String {
+        val specialChars = mapOf(
+            "spurningarmerki" to "?",
+            "punktur" to ".",
+            "komma" to ",",
+            "upphrópunarmerki" to "!",
+            "tvípunktur" to ":",
+            "semíkomma" to ";",
+            "ný lína" to "\n"
+        )
+
+        val hypLower = hypothesis.lowercase().trim()
+        return if (hypLower in specialChars.keys) {
+            specialChars[hypLower] as String
+        } else {
+            hypothesis
+        }
+    }
+
+    private fun handleResults(results: Bundle, isFinal: Boolean = false) {
         Log.d(TAG, "results")
         val resultsArray = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
             ?: arrayListOf<String>()
         val topResult = if (resultsArray.size > 0) resultsArray[0] else ""
 
-        currentInputConnection.beginBatchEdit()
-        val padding =
-            currentInputConnection.getTextBeforeCursor(currentHypothesis.length + 1, 0).let {
-                if (it == null || it.length == currentHypothesis.length || it.substring(
-                        0,
-                        1
-                    ) == " "
-                ) {
+        currentInputConnection.also { ic ->
+            val padding = ic.getTextBeforeCursor(currentHypothesis.length + 1, 1).let {
+                if (it == null || it.length == currentHypothesis.length || it.startsWith(" "))
                     ""
-                } else {
+                else
                     " "
-                }
             }
-        currentInputConnection.deleteSurroundingText(currentHypothesis.length, 0)
-        currentHypothesis = padding + topResult
-        currentInputConnection.commitText(currentHypothesis, 1)
-        currentInputConnection.endBatchEdit()
+            currentHypothesis = mapSpecialChars(padding + topResult)
+            ic.setComposingText(currentHypothesis, 1)
+            if (isFinal) {
+                ic.commitText(currentHypothesis, 1)
+            }
+        }
     }
 
     override fun onResults(results: Bundle) {
-        handleResults(results)
+        handleResults(results, isFinal = true)
         finishListening()
     }
 
@@ -193,6 +209,20 @@ class InputMethodService :
                 )
             }
 
+            actionBtn = findViewById<ImageButton>(R.id.button_action)
+            actionBtn.setOnClickListener {
+                val imeActionId = currentInputEditorInfo.let { info ->
+                    if ((info.imeOptions and EditorInfo.IME_FLAG_NO_ENTER_ACTION) != 0)
+                        EditorInfo.IME_ACTION_NONE
+                    else
+                        info.imeOptions and EditorInfo.IME_MASK_ACTION
+                }
+                if (imeActionId != EditorInfo.IME_ACTION_NONE)
+                    currentInputConnection.performEditorAction(imeActionId)
+                else
+                    currentInputConnection.commitText("\n", 1)
+            }
+
             resultsTextView = findViewById<TextView>(R.id.text_recognition_results)
         }
     }
@@ -200,7 +230,8 @@ class InputMethodService :
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
         Log.d(TAG, "onStartInputView")
         createSpeechRecognizer()
-        startListening()
+        if (!restarting)
+            startListening()
     }
 
     override fun onFinishInputView(finishingInput: Boolean) {
@@ -209,5 +240,6 @@ class InputMethodService :
             stopListening()
         }
         finishListening()
+        switchToPreviousInputMethod()
     }
 }
