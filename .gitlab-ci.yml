@@ -37,5 +37,5 @@ publish to play store:
     - echo "$ANDROID_KEYSTORE" | base64 -d > app/keystore.jks
     - echo "$ANDROID_KEYSTORE_PROPERTIES" | base64 -d > app/keystore.properties
   script:
-    - export TRACK=$(echo "$CI_COMMIT_TAG" | awk 'match($0, /^[0-9]+\.[0-9]+-?(beta|alpha|prealpha|internal)?[0-9]*(.*)/, m) { if (!m[1]) { print "production"} else if (m[2]) { print "internal" } else { print m[1] } }')
+    - export TRACK=$(echo "$CI_COMMIT_TAG" | perl -lne 'if (/^[0-9]+\.[0-9]+$/) { print "production" } elsif (/^[0-9]+\.[0-9]+-(beta|alpha|prealpha|internal)[0-9]*$/) { print $1 } else { print "internal" }')
     - ./gradlew publishApps --track=$TRACK
