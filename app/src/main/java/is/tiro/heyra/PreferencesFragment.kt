@@ -13,6 +13,7 @@ import androidx.core.content.edit
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 
 class PreferencesFragment : PreferenceFragmentCompat() {
     companion object {
@@ -21,6 +22,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
         const val KEY_RESET = "reset"
         const val KEY_PERMISSIONS_STATUS = "permissions_status"
         const val KEY_INPUT_METHOD_STATUS = "input_method_status"
+        const val KEY_NOTICES = "notices"
     }
 
     private fun notify(messageId: Int) {
@@ -126,6 +128,13 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                     apply()
                     apply()
                 }
+                true
+            }
+
+        preferenceScreen.findPreference<Preference>(KEY_NOTICES)?.onPreferenceClickListener =
+            Preference.OnPreferenceClickListener {
+                startActivity(Intent(context, OssLicensesMenuActivity::class.java))
+                OssLicensesMenuActivity.setActivityTitle(getString(R.string.pref_notices_title))
                 true
             }
 
