@@ -23,6 +23,10 @@
     <string name="pref_insufficient_permissions_status_summary">Heyra needs additional system permissions. Click here to open system settings.</string>
     <string name="pref_notices_title">Third-party licenses</string>
     <string name="pref_notices_summary">Free and open source licenses of third-party libraries used by Heyra.</string>
+    <string name="pref_version_title">Version information</string>
+    <string name="pref_version_summary"></string>
+    <string name="pref_privacy_title">Privacy policy</string>
+    <string name="pref_privacy_summary">Click here to read the privacy policy for Heyra.</string>
     <string name="button_settings_description">Open application settings</string>
     <string name="button_action_description">Perform action</string>
     <string name="pref_input_method_status_title">Voice keyboard status</string>

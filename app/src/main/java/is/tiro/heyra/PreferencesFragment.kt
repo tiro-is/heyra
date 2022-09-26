@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.inputmethod.InputMethodManager
@@ -22,7 +23,9 @@ class PreferencesFragment : PreferenceFragmentCompat() {
         const val KEY_RESET = "reset"
         const val KEY_PERMISSIONS_STATUS = "permissions_status"
         const val KEY_INPUT_METHOD_STATUS = "input_method_status"
+        const val KEY_PRIVACY = "privacy"
         const val KEY_NOTICES = "notices"
+        const val KEY_VERSION = "version"
     }
 
     private fun notify(messageId: Int) {
@@ -131,12 +134,24 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                 true
             }
 
+        preferenceScreen.findPreference<Preference>(KEY_PRIVACY)?.let {
+            it.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://tiro.is/personuverndarstefna/#heyra")))
+                true
+            }
+        }
+
         preferenceScreen.findPreference<Preference>(KEY_NOTICES)?.onPreferenceClickListener =
             Preference.OnPreferenceClickListener {
                 startActivity(Intent(context, OssLicensesMenuActivity::class.java))
                 OssLicensesMenuActivity.setActivityTitle(getString(R.string.pref_notices_title))
                 true
             }
+
+        preferenceScreen.findPreference<Preference>(KEY_VERSION)?.summary =
+            "Heyra: ${BuildConfig.VERSION_NAME} ${BuildConfig.BUILD_TYPE}\n" +
+            "OS: Android ${Build.VERSION.RELEASE}\n" +
+            "Device: ${Build.BRAND} ${Build.MODEL}"
 
         updateStatusSummaries()
     }
