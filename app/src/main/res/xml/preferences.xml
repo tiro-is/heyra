@@ -23,7 +23,17 @@
         app:summary="@string/pref_reset_summary" />
 
     <Preference
-        app:key="about"
-        app:title="@string/pref_about_app_title"
-        app:summary="@string/pref_about_app_summary" />
+        app:key="notices"
+        app:title="@string/pref_notices_title"
+        app:summary="@string/pref_notices_summary" />
+
+    <Preference
+        app:key="version"
+        app:title="@string/pref_version_title"
+        app:summary="@string/pref_version_summary" />
+
+    <Preference
+        app:key="privacy"
+        app:title="@string/pref_privacy_title"
+        app:summary="@string/pref_privacy_summary" />
 </PreferenceScreen>

@@ -21,8 +21,12 @@
     <string name="pref_permissions_status_title">Kerfisréttindi</string>
     <string name="pref_permissions_status_summary">Öll nauðynleg kerfisréttindi virk.</string>
     <string name="pref_insufficient_permissions_status_summary">Heyra vantar nauðsynleg kerfisréttindi. Smelltu hér til að fara opna kerfisstillingar.</string>
-    <string name="pref_about_app_title">Um Heyra</string>
-    <string name="pref_about_app_summary">Útgáfuupplýsingar, persónuvernd, hugbúnaðarleyfi þriðju aðila, …</string>
+    <string name="pref_notices_title">Notkunarleyfi þriðju aðila</string>
+    <string name="pref_notices_summary">Frjáls og opin notkunarleyfi forritasafna sem Heyra notar.</string>
+    <string name="pref_version_title">Útgáfuupplýsingar</string>
+    <string name="pref_version_summary"></string>
+    <string name="pref_privacy_title">Persónuvernd</string>
+    <string name="pref_privacy_summary">Smelltu hér til að lesa persónuverndaryfirlýsingu fyrir Heyra.</string>
     <string name="button_settings_description">Opna stillingar fyrir Heyra</string>
     <string name="button_action_description">Framkvæma</string>
     <string name="pref_input_method_status_title">Staða sýndarlyklaborðs</string>
